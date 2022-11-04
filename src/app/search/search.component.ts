@@ -12,37 +12,33 @@ export class SearchComponent implements OnInit {
   @Output() repositorySize: EventEmitter<any> = new EventEmitter();
   @Output() repositoryData: EventEmitter<any> = new EventEmitter();
   @Output() submitted: EventEmitter<any> = new EventEmitter();
-  
+
   userForm!: FormGroup;
 
   userSubmitted: any = false;
+  userAvatar: string = "";
+  userFullName: string = "";
+  bio: string = "";
+  repositoryLength: number = 0;
+  repositories: any = [];
 
   get userName() {
     return this.userForm.get('userName');
   }
 
-  userAvatar: string = "";
-  userFullName: string = "";
-  bio: string = "";
-
-  repositoryLength: number = 0;
-
-  repositories: any = [];
-
   constructor(private readonly service: UserService) { }
 
   ngOnInit(): void {
-         this.initUserForm();
-
+    this.initUserForm();
   }
 
-   private initUserForm() {
-     this.userForm = new FormGroup({
-       userName: new FormControl('', [
-         Validators.required,
-       ])
-     });
-   }
+  private initUserForm() {
+    this.userForm = new FormGroup({
+      userName: new FormControl('', [
+        Validators.required,
+      ])
+    });
+  }
 
   searchUser(form: FormGroup) {
     this.userSubmitted = true;
@@ -76,7 +72,6 @@ export class SearchComponent implements OnInit {
               console.log('The searchRepos method was completed');
             }
           });
-
         },
         error: error => {
           console.log("Error control (line 53 aprox): ", error);
