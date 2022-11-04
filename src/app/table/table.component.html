@@ -1,0 +1,19 @@
+
+  <div class="table-container">
+    <table>
+      <tr class="header-table">
+        <th class="w-20">NOMBRE DEL REPO</th>
+        <th class="w-17">DESCRIPCIÓN</th>
+        <th class="w-25">ENLACE AL REPO</th>
+        <th class="w-13">ESTRELLAS</th>
+        <th class="w-25">LENGUAJES DE PROGRAMACIÓN</th>
+      </tr>
+      <tr *ngFor="let repository of repositories">
+        <td class="pt-30">{{repository.name}}</td>
+        <td class="pt-30">{{repository.description}}</td>
+        <td class="pt-30">{{repository.html_url}}</td>
+        <td class="pt-30">{{repository.stargazers_count}}</td>
+        <td class="pt-30">{{repository.language}}</td>
+      </tr>
+    </table>
+  </div>

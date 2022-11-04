@@ -1,0 +1,28 @@
+.form-style {
+    grid-area: 1/2/2/3;
+}
+
+.search-button {
+    height: 30px;
+    width: 40vw;
+}
+
+.submit-button {
+    margin-left: 40px;
+    height: 35px;
+    width: 114px;
+    font-weight: 700;
+    background-color: black;
+    color: white;
+}
+
+.submit-button:hover {
+    background-color: rgb(34, 33, 33);
+}
+
+.error-control {
+    grid-area: 2/2/3/3;
+    margin-top: 8px;
+    color: rgb(216, 4, 4);
+    font-weight: bold;
+}

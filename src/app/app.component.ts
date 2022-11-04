@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from './user.service';
 
@@ -10,51 +10,104 @@ import { UserService } from './user.service';
 })
 export class AppComponent {
 
-  api = "https://api.github.com/users"
-  
+  // api = "https://api.github.com/users"
 
-  userForm!: FormGroup;
-  userSubmitted = false;
+
+  // userForm!: FormGroup;
+  // userSubmitted: Boolean = false;
 
   // BUSCAR UN USUARIO POR NOMBRE DE USUARIO Y DEVUELVA =
 
-  avatar = "";
-  repositoriesTableList: Array<any> = [];
+  // userAvatar: string = "";
+  // userFullName: string = "";
+  // bio: string = "";
 
-  repositoriesTableListName = ""
-  repositoriesTableListDescription = ""
-  repositoriesTableListLink = ""
-  repositoriesTableListStars = ""
-  repositoriesTableListLenguageProgramming = ""
+  // repositoryLength: number = 0;
 
-  get userName() {
-    return this.userForm.get('userName');
-  }
+  repositoryLength: number = 0;
 
-  constructor(private readonly service: UserService) { }
+  repositories: any = [];
+
+  userSubmitted: any = false;
+
+  // get userName() {
+  //   return this.userForm.get('userName');
+  // }
+
+  constructor(
+    // private readonly service: UserService
+  ) { }
 
   ngOnInit() {
-    this.initUserForm();
+    // this.initUserForm();
   }
 
-  private initUserForm() {
-    this.userForm = new FormGroup({
-      userName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-      ])
-    });
+  repositorySize(event: any) {
+    this.repositoryLength = event;
+  }
+  repositoryData(event: any) {
+    this.repositories = event;
   }
 
-  searchUser(form: FormGroup) {
-    this.userSubmitted = true;
-    if (form.valid) {
-      this.service.searchUsers(form.value.userName).subscribe(data => {
-        const a = data;
-      });
-    }
+  submitted(event: any) {
+    this.userSubmitted = event;
   }
+
+
+
+  // private initUserForm() {
+  //   this.userForm = new FormGroup({
+  //     userName: new FormControl('', [
+  //       Validators.required,
+  //     ])
+  //   });
+  // }
+
+  // searchUser(form: FormGroup) {
+  //   this.userSubmitted = true;
+  //   if (form.valid) {
+  //     this.service.searchUsers(form.value.userName).subscribe({
+  //       next: user => {
+  //         console.log(
+  //           "*** User found (Succes): The user", user.name
+  //           , "with the id:", user.id
+  //           , "and login like:", user.login
+  //           , "was founded. ***"
+  //         );
+  //         this.userAvatar = user.avatar_url;
+  //         this.userFullName = user.name;
+  //         this.bio = user.bio;
+  //         this.service.searchRepos(form.value.userName).subscribe({
+  //           next: repositories => {
+  //             this.repositories = repositories;
+  //             this.repositoryLength = repositories.length;
+  //             console.log(
+  //               "The user", form.value.userName,
+  //               "has", this.repositoryLength,
+  //               "repositories");
+  //           },
+  //           error: error => {
+  //             console.log("Error control (line 53 aprox): ", error);
+  //           },
+  //           complete: () => {
+  //             console.log('The searchRepos method was completed');
+  //           }
+  //         });
+
+  //       },
+  //       error: error => {
+  //         console.log("Error control (line 53 aprox): ", error);
+  //       },
+  //       complete: () => {
+  //         console.log('The searchUsers method was completed');
+  //       }
+  //     })
+  //   }
+  // }
+
+  // cleanSubmit() {
+  //   this.userSubmitted = false;
+  // }
 
   // 1 - Realizar un input que busque por nombre de usuario y que renderice 
   // la biografía, el nombre y elavatar y una lista de los repositorios 

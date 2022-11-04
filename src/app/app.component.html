@@ -1,21 +1,17 @@
 <div class="template-container">
-  <div class="header">
-    <img class="logo" src="./../assets/logo.jpg" alt="">
-    <h1 class="header-title">Enthec technical test <span class="text-red">by</span> Raúl Lora Gómez</h1>
-  </div>
-  <div class="search">
-    <form style="grid-area: 1/2/2/3;" [formGroup]="userForm" (ngSubmit)="searchUser(userForm)">
-      <input class="search-button" type="text" placeholder="Buscar usuario de Github" formControlName="userName">
-      <button class="submit-button" type="submit">Buscar</button>
-    </form>
-    <div [style.visibility]="userSubmitted && userName?.errors?.['required'] ? 'visible' : 'hidden'"
-      class="error-control">
-      * Campo obligatorio.
-    </div>
-  </div>
-  <div *ngIf="repositoriesTableList.length === 0" class="table grey-background">
-  </div>
-  <div *ngIf="repositoriesTableList.length > 0" class="table">
-    TABLA
-  </div>
+  <app-header class="header"></app-header>
+  <app-search 
+  (repositorySize)="repositorySize($event)" 
+  (repositoryData)="repositoryData($event)"
+  (submitted)="submitted($event)" 
+  class="search">
+  </app-search>
+
+
+  <app-table *ngIf="repositoryLength > 0" 
+    [repositoryLength]="repositoryLength" 
+    [repositories]="repositories"
+    [userSubmitted]="userSubmitted" 
+    class="table">
+  </app-table>
 </div>

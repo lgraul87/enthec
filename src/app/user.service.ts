@@ -5,11 +5,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-
-  usurepo = "https://api.github.com/users/lgraul87/repos";
+  search = "https://api.github.com/users/";
   constructor(private http: HttpClient) { }
 
-  searchUsers(name: string) { 
-    return this.http.get<any>(this.usurepo);
+  searchUsers(name: string) {
+    return this.http.get<any>(this.search + name);
+  }
+
+  searchRepos(name: string) {
+    return this.http.get<any>(this.search + name + "/repos");
   }
 }

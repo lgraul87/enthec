@@ -6,10 +6,10 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-.header {
-    grid-area: 1/1/2/7;
+.table {
+    grid-area: 3/1/7/7;
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .search {
@@ -22,26 +22,18 @@
     grid-template-rows: 1fr 1fr;
 }
 
-.table {
-    grid-area: 3/1/7/7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 //##########################################  IMG STYLES   ##################################################
-.logo {
-    margin-left: 30px;
-    width: 300px;
-}
+
 
 //##########################################  TEXT STYLES   ##################################################
-.header-title {
-    margin-left: 60px;
-}
 
-.text-red {
-    color: rgb(216, 4, 4);
+
+.header {
+    grid-area: 1/1/2/7;
+    display: flex;
+    align-items: center;
 }
 
 .grey-background {
@@ -49,28 +41,22 @@
 }
 
 //##########################################  BUTTONS STYLES   ##################################################
-.search-button {
-    height: 30px;
-    width: 630px;
-}
 
-.submit-button {
-    margin-left: 40px;
-    height: 35px;
-    width: 114px;
-    font-weight: 700;
-    background-color: black;
-    color: white;
-}
 
-.submit-button:hover {
-    background-color: rgb(34, 33, 33);
-}
+
 
 //##########################################  ERROR CONTROL STYLES   ##################################################
-.error-control {
-    grid-area: 2/2/3/3;
-    margin-top: 8px;
-    color: rgb(216, 4, 4);
-    font-weight: bold;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
