@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-filter',
@@ -6,6 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+
+  @Input()
+  userAvatar="";
+
+  @Input()
+  userName="";
+
+  @Input()
+  repositoryLength=0;
 
   constructor() { }
 

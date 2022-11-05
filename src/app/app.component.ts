@@ -9,7 +9,8 @@ export class AppComponent {
   repositoryLength: number = 0;
   repositories: any = [];
   userSubmitted: any = false;
-
+  userAvatar = "";
+  userName = "";
   constructor() { }
 
   ngOnInit() {
@@ -25,6 +26,15 @@ export class AppComponent {
   submitted(event: any) {
     this.userSubmitted = event;
   }
+
+  repositoryAvatar(event: any) {
+    this.userAvatar = event
+  }
+
+  repositoryUserName(event: any) {
+    this.userName = event
+  }
+
 
   // 1 - Realizar un input que busque por nombre de usuario y que renderice 
   // la biografía, el nombre y elavatar y una lista de los repositorios 

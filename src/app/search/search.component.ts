@@ -11,6 +11,8 @@ export class SearchComponent implements OnInit {
 
   @Output() repositorySize: EventEmitter<any> = new EventEmitter();
   @Output() repositoryData: EventEmitter<any> = new EventEmitter();
+  @Output() repositoryAvatar: EventEmitter<any> = new EventEmitter();
+  @Output() repositoryUserName: EventEmitter<any> = new EventEmitter();
   @Output() submitted: EventEmitter<any> = new EventEmitter();
 
   userForm!: FormGroup;
@@ -52,7 +54,9 @@ export class SearchComponent implements OnInit {
             , "was founded. ***"
           );
           this.userAvatar = user.avatar_url;
+          this.repositoryAvatar.emit(this.userAvatar);
           this.userFullName = user.name;
+          this.repositoryUserName.emit(this.userFullName);
           this.bio = user.bio;
           this.service.searchRepos(form.value.userName).subscribe({
             next: repositories => {

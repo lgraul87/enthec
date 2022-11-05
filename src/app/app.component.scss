@@ -1,4 +1,3 @@
-//##########################################  LAYOUT   ##################################################
 .template-container {
     height: 100vh;
     display: grid;
@@ -6,10 +5,10 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-.table {
-    grid-area: 3/1/7/7;
+.header {
+    grid-area: 1/1/2/7;
     display: flex;
-    justify-content: center;
+    align-items: center;
 }
 
 .search {
@@ -22,41 +21,15 @@
     grid-template-rows: 1fr 1fr;
 }
 
-
-
-//##########################################  IMG STYLES   ##################################################
-
-
-//##########################################  TEXT STYLES   ##################################################
-
-
-.header {
-    grid-area: 1/1/2/7;
+.filter {
+    grid-area: 3/1/4/7;
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
-.grey-background {
-    background-color: grey;
+.table {
+    grid-area: 4/1/7/7;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
 }
-
-//##########################################  BUTTONS STYLES   ##################################################
-
-
-
-
-//##########################################  ERROR CONTROL STYLES   ##################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
