@@ -43,6 +43,15 @@ export class AppComponent {
   // 2 - Para cada repositorio que pinte los siguientes datos: nombre, descripción, un enlace al
   // repositorio, las estrellas y los lenguajes de programación.
 
+
+
+
+
+
+
+
+
+
   // 3 - Que las filas de la tabla se puedan ordenar por nombre del repositorio o por estrellas de forma
   // ascendente y descendente.
 

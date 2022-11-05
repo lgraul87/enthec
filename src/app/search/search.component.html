@@ -1,5 +1,5 @@
 <form class="form-style" [formGroup]="userForm" (ngSubmit)="searchUser(userForm)">
-  <input class="search-input" type="text" placeholder="Buscar usuario de Github" formControlName="userName"
+  <input class="search-input" type="text" placeholder="Buscar usuario de Github"  formControlName="userName"
     (keydown)="cleanSubmit()" (mouseup)="cleanSubmit()">
   <button class="search-button" type="submit">Buscar</button>
 </form>

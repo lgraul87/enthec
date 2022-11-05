@@ -6,8 +6,10 @@
     <div class="name">{{userName}}</div>
     <div class="bio">Bio</div>
     <div class="filter">
-      <input class="filter-input" type="text">
-      <button class="filter-button" type="submit">Buscar repo</button>
+      <form class="form-style" [formGroup]="filterForm" (ngSubmit)="filterRepositories(filterForm)">
+        <input class="filter-input" type="text" formControlName="userRepo">
+        <button class="filter-button" type="submit">Buscar repo</button>
+      </form>
     </div>
     <div class="checkbox">
       <div class="checkbox-style"><input type="checkbox"></div>
