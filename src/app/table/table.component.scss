@@ -46,7 +46,7 @@ th {
 }
 
 .bio {
-    grid-area: 3/3/5/8;
+    grid-area: 3/3/5/7;
     margin-top: 15px;
     margin-bottom: auto;
     margin-left: 15px;
@@ -80,19 +80,20 @@ th {
 }
 
 .checkbox {
-    grid-area: 3/8/5/11;
+    grid-area: 3/7/5/11;
     margin-top: 15px;
     margin-bottom: auto;
     display: flex;
+    justify-content: flex-end;
 }
 
 .checkbox-style {
     margin-top: 1px;
+    margin-left: .6vw;
 }
 
 .check-text {
     font-weight: 600;
-    margin-right: 15px;
 }
 
 .table-format {

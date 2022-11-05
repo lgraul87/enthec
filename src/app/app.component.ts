@@ -11,6 +11,9 @@ export class AppComponent {
   userSubmitted: any = false;
   userAvatar = "";
   userName = "";
+  bio = "";
+  uniqueLenguage: any = [];
+
   constructor() { }
 
   ngOnInit() {
@@ -35,6 +38,13 @@ export class AppComponent {
     this.userName = event
   }
 
+  repositoryBio(event: any) {
+    this.bio = event
+  }
+
+  repositoryUniqueLenguage(event: any) {
+    this.uniqueLenguage = event
+  }
 
   // 1 - Realizar un input que busque por nombre de usuario y que renderice 
   // la biografía, el nombre y elavatar y una lista de los repositorios 

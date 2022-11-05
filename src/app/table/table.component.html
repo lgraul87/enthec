@@ -3,8 +3,8 @@
     <div class="photo-container">
       <img class="photo" src={{userAvatar}} alt="">
     </div>
-    <div class="name">{{userName}}</div>
-    <div class="bio">Bio</div>
+    <div class="name">{{userName || "Not avaliable"}}</div>
+    <div class="bio">{{bio || "--"}}</div>
     <div class="filter">
       <form class="form-style" [formGroup]="filterForm" (ngSubmit)="filterRepositories(filterForm)">
         <input class="filter-input" type="text" formControlName="userRepo">
@@ -12,8 +12,15 @@
       </form>
     </div>
     <div class="checkbox">
-      <div class="checkbox-style"><input type="checkbox"></div>
-      <div class="check-text"><span>HTML</span></div>
+      <div *ngFor="let lenguage of uniqueLenguage" class="check-text">
+        <div class="checkbox-style">
+          <input type="checkbox">
+          <span>{{lenguage}}</span>
+        </div>
+      </div>
+      <div *ngIf="uniqueLenguage.length == 0" class="check-text">
+        --
+      </div>
     </div>
   </div>
 

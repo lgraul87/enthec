@@ -13,7 +13,11 @@ export class SearchComponent implements OnInit {
   @Output() repositoryData: EventEmitter<any> = new EventEmitter();
   @Output() repositoryAvatar: EventEmitter<any> = new EventEmitter();
   @Output() repositoryUserName: EventEmitter<any> = new EventEmitter();
+  @Output() repositoryBio: EventEmitter<any> = new EventEmitter();
+  @Output() repositoryUniqueLenguage: EventEmitter<any> = new EventEmitter();
   @Output() submitted: EventEmitter<any> = new EventEmitter();
+
+  
 
   userForm!: FormGroup;
 
@@ -58,12 +62,21 @@ export class SearchComponent implements OnInit {
           this.userFullName = user.name;
           this.repositoryUserName.emit(this.userFullName);
           this.bio = user.bio;
+          this.repositoryBio.emit(this.bio);
           this.service.searchRepos(form.value.userName).subscribe({
             next: repositories => {
               this.repositories = repositories;
+              this.repositoryData.emit(this.repositories);
               this.repositoryLength = repositories.length;
               this.repositorySize.emit(this.repositoryLength);
-              this.repositoryData.emit(this.repositories);
+              let allLenguajes: any = [];
+              this.repositories.forEach((element: any) => {
+                if (element.language) {
+                  allLenguajes.push(element.language);
+                }
+              });
+              const uniqueLenguage = allLenguajes.filter(this.onlyUnique);
+              this.repositoryUniqueLenguage.emit(uniqueLenguage);
               console.log(
                 "The user", form.value.userName,
                 "has", this.repositoryLength,
@@ -90,5 +103,9 @@ export class SearchComponent implements OnInit {
   cleanSubmit() {
     this.userSubmitted = false;
     this.submitted.emit(this.userSubmitted);
+  }
+
+  onlyUnique(value: any, index: any, self: any) {
+    return self.indexOf(value) === index;
   }
 }

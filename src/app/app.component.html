@@ -5,6 +5,8 @@
   (repositoryData)="repositoryData($event)"
   (repositoryAvatar)="repositoryAvatar($event)"
   (repositoryUserName)="repositoryUserName($event)"
+  (repositoryBio)="repositoryBio($event)"
+  (repositoryUniqueLenguage)="repositoryUniqueLenguage($event)"
   (submitted)="submitted($event)">
   </app-search>
   <app-table class="app-table" 
@@ -13,6 +15,9 @@
   [repositories]="repositories" 
   [userSubmitted]="userSubmitted"
   [userAvatar]="userAvatar"
-  [userName]="userName">
+  [userName]="userName"
+  [bio]="bio"
+  [uniqueLenguage]="uniqueLenguage"
+  >
   </app-table>
 </div>

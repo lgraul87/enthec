@@ -23,11 +23,16 @@ export class TableComponent implements OnInit {
   @Input()
   userName = "";
 
+  @Input()
+  bio = "";
+
+  @Input()
+  uniqueLenguage: any = [];
+
   filterForm!: FormGroup
-
   orderDesc = false;
-
   orderAsc = false;
+  lenguajes: any = [];
 
   constructor() { }
 
@@ -45,18 +50,18 @@ export class TableComponent implements OnInit {
 
   filterRepositories(form: FormGroup) {
     let array: any = [];
-    let va: Boolean = false;
+    let filterActions: Boolean = false;
     if (form.valid) {
       this.repositories.forEach((element: any) => {
         if (element.name.includes(form.value.userRepo)) {
           array.push(element);
-          va = true;
+          filterActions = true;
         }
       });
 
-      if (va == true) {
+      if (filterActions == true) {
         this.repositories = array;
-        va = false;
+        filterActions = false;
       }
     }
   }
@@ -85,8 +90,6 @@ export class TableComponent implements OnInit {
     }
     return 0;
   }
-
-
 
   orderStarsRepository() {
     if (this.orderDesc == false && this.orderAsc == false) {
