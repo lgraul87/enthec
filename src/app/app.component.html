@@ -1,13 +1,13 @@
-<div class="template-container">
-  <app-header class="header"></app-header>
-  <app-search class="search" 
+<div class="app-container">
+  <app-header class="app-header"></app-header>
+  <app-search class="app-search" 
   (repositorySize)="repositorySize($event)" 
   (repositoryData)="repositoryData($event)"
   (repositoryAvatar)="repositoryAvatar($event)"
   (repositoryUserName)="repositoryUserName($event)"
   (submitted)="submitted($event)">
   </app-search>
-  <app-table class="table" 
+  <app-table class="app-table" 
   *ngIf="repositoryLength > 0" 
   [repositoryLength]="repositoryLength"
   [repositories]="repositories" 
