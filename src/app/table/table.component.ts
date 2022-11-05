@@ -16,6 +16,13 @@ export class TableComponent implements OnInit {
   @Input()
   userSubmitted: any = false;
 
+  @Input()
+  userAvatar="";
+
+  @Input()
+  userName="";
+
+
   constructor() { }
 
   ngOnInit(): void {

@@ -7,16 +7,12 @@
   (repositoryUserName)="repositoryUserName($event)"
   (submitted)="submitted($event)">
   </app-search>
-  <app-filter class="filter"
-  *ngIf="repositoryLength > 0" 
-  [repositoryLength]="repositoryLength"
-  [userAvatar]="userAvatar"
-  [userName]="userName">
-  </app-filter>
   <app-table class="table" 
   *ngIf="repositoryLength > 0" 
   [repositoryLength]="repositoryLength"
   [repositories]="repositories" 
-  [userSubmitted]="userSubmitted">
+  [userSubmitted]="userSubmitted"
+  [userAvatar]="userAvatar"
+  [userName]="userName">
   </app-table>
 </div>
