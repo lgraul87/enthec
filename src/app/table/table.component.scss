@@ -72,6 +72,7 @@ th {
     font-weight: 400;
     background-color: black;
     color: white;
+    cursor: pointer;
 }
 
 .filter-button:hover {
@@ -121,4 +122,15 @@ th {
 
 .w-13 {
     width: 13%;
+}
+
+.arrow-style {
+    width: 15px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.aa {
+    position: relative;
+    top: 5px;
 }

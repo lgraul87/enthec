@@ -20,11 +20,11 @@
   <div class="table-format">
     <table>
       <tr class="header-table-format">
-        <th class="w-20">NOMBRE DEL REPO</th>
-        <th class="w-17">DESCRIPCIÓN</th>
-        <th class="w-25">ENLACE AL REPO</th>
-        <th class="w-13">ESTRELLAS</th>
-        <th class="w-25">LENGUAJES DE PROGRAMACIÓN</th>
+        <th class="w-20">  <span>NOMBRE DEL REPO</span> <img (click)="orderNameRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt=""> </th>
+        <th class="w-17">  <span class="aa">DESCRIPCIÓN</span> </th>
+        <th class="w-25">  <span class="aa">ENLACE AL REPO</span>  </th>
+        <th class="w-13">  ESTRELLAS  <img (click)="orderStarsRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt=""></th>
+        <th class="w-25"> <span class="aa">LENGUAJES DE PROGRAMACIÓN</span> </th>
       </tr>
       <tr *ngFor="let repository of repositories">
         <td class="pt-30">{{repository.name}}</td>

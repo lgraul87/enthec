@@ -25,6 +25,10 @@ export class TableComponent implements OnInit {
 
   filterForm!: FormGroup
 
+  orderDesc = false;
+
+  orderAsc = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -40,7 +44,7 @@ export class TableComponent implements OnInit {
   }
 
   filterRepositories(form: FormGroup) {
-    let array : any = [];
+    let array: any = [];
     let va: Boolean = false;
     if (form.valid) {
       this.repositories.forEach((element: any) => {
@@ -55,5 +59,57 @@ export class TableComponent implements OnInit {
         va = false;
       }
     }
+  }
+
+  orderNameRepository() {
+    if (this.orderDesc == false && this.orderAsc == false) {
+      this.orderDesc = true;
+    }
+    let sortedProducts = this.repositories.sort(this.compareName);
+    if (this.orderDesc == true) {
+      sortedProducts.reverse()
+      this.orderDesc = false;
+      this.orderAsc = true;
+    } else {
+      sortedProducts = this.repositories.sort(this.compareName);
+      this.orderAsc = false;
+    }
+  }
+
+  compareName(a: any, b: any) {
+    if (a.name.toUpperCase() < b.name.toUpperCase()) {
+      return -1;
+    }
+    if (a.name.toUpperCase() > b.name.toUpperCase()) {
+      return 1;
+    }
+    return 0;
+  }
+
+
+
+  orderStarsRepository() {
+    if (this.orderDesc == false && this.orderAsc == false) {
+      this.orderDesc = true;
+    }
+    let sortedProducts = this.repositories.sort(this.compareStars);
+    if (this.orderDesc == true) {
+      sortedProducts.reverse()
+      this.orderDesc = false;
+      this.orderAsc = true;
+    } else {
+      sortedProducts = this.repositories.sort(this.compareStars);
+      this.orderAsc = false;
+    }
+  }
+
+  compareStars(a: any, b: any) {
+    if (a.stargazers_count < b.stargazers_count) {
+      return -1;
+    }
+    if (a.stargazers_count > b.stargazers_count) {
+      return 1;
+    }
+    return 0;
   }
 }
