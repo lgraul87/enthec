@@ -30,11 +30,11 @@ export class TableComponent implements OnInit {
   uniqueLanguage: any = [];
 
   filterForm!: FormGroup
-  orderDesc = false;
-  orderAsc = false;
-  lenguajes: any = [];
+  orderDesc: Boolean = false;
+  orderAsc: Boolean = false;
+  lenguajes: Array<string> = [];
   repositoryTemplate: any = [];
-  limit = 0;
+  limit: number = 0;
 
   constructor() { }
 
@@ -42,7 +42,7 @@ export class TableComponent implements OnInit {
     this.initFilterForm();
   }
 
-  initFilterForm() {
+  initFilterForm(): void {
     this.filterForm = new FormGroup({
       userRepo: new FormControl('', [
         Validators.required,
@@ -50,7 +50,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-  filterRepositories(form: FormGroup) {
+  filterRepositories(form: FormGroup): void {
     let array: any = [];
     let filterActions: Boolean = false;
     if (form.valid) {
@@ -68,10 +68,8 @@ export class TableComponent implements OnInit {
     }
   }
 
-  orderNameRepository() {
-    if (this.orderDesc == false && this.orderAsc == false) {
-      this.orderDesc = true;
-    }
+  orderNameRepository(): void {
+    this.setOrderAsc();
     let sortedProducts = this.repositories.sort(this.compareName);
     if (this.orderDesc == true) {
       sortedProducts.reverse()
@@ -83,7 +81,13 @@ export class TableComponent implements OnInit {
     }
   }
 
-  compareName(a: any, b: any) {
+  private setOrderAsc(): void {
+    if (this.orderDesc == false && this.orderAsc == false) {
+      this.orderDesc = true;
+    }
+  }
+
+  compareName(a: any, b: any): 0 | 1 | -1 {
     if (a.name.toUpperCase() < b.name.toUpperCase()) {
       return -1;
     }
@@ -93,7 +97,7 @@ export class TableComponent implements OnInit {
     return 0;
   }
 
-  orderStarsRepository() {
+  orderStarsRepository(): void {
     if (this.orderDesc == false && this.orderAsc == false) {
       this.orderDesc = true;
     }
@@ -108,7 +112,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  compareStars(a: any, b: any) {
+  compareStars(a: any, b: any): 0 | 1 | -1 {
     if (a.stargazers_count < b.stargazers_count) {
       return -1;
     }
@@ -118,7 +122,7 @@ export class TableComponent implements OnInit {
     return 0;
   }
 
-  sendLanguage(event: any, stringLanguage: any) {
+  sendLanguage(event: any, stringLanguage: any): void {
     const check = event.target.checked;
     const stringLanguageObject = stringLanguage;
     if (this.repositoryTemplate.length == 0) {
@@ -128,11 +132,9 @@ export class TableComponent implements OnInit {
       this.limit = this.repositoryLength;
       this.repositories = [];
     }
-
     if (this.repositories.length >= this.limit) {
       this.repositories = [];
     }
-
     if (check == true) {
       this.repositoryTemplate.forEach((element: any) => {
         if (element.language == stringLanguageObject.language) {
@@ -141,25 +143,20 @@ export class TableComponent implements OnInit {
       }
       )
     }
-
-
-
     if (check == false) {
-      let arr: any = [];
+      let repositoriesFiltered: any = [];
       for (let index = 0; index < this.repositories.length; index++) {
         const element = this.repositories[index];
         if (element.language != stringLanguageObject.language) {
-          arr.push(element)
+          repositoriesFiltered.push(element)
         }
       }
-      this.repositories = arr;
+      this.repositories = repositoriesFiltered;
     }
-
 
     if (this.repositories.length == 0) {
       this.repositories = this.repositoryTemplate;
     }
     this.repositories.sort(this.compareName)
-
   }
 }

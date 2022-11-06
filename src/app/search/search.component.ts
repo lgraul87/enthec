@@ -17,11 +17,8 @@ export class SearchComponent implements OnInit {
   @Output() repositoryUniqueLenguage: EventEmitter<any> = new EventEmitter();
   @Output() submitted: EventEmitter<any> = new EventEmitter();
 
-  
-
   userForm!: FormGroup;
-
-  userSubmitted: any = false;
+  userSubmitted: Boolean = false;
   userAvatar: string = "";
   userFullName: string = "";
   bio: string = "";
@@ -46,7 +43,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  searchUser(form: FormGroup) {
+  searchUser(form: FormGroup): void {
     this.userSubmitted = true;
     if (form.valid) {
       this.service.searchUsers(form.value.userName).subscribe({
@@ -100,12 +97,12 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  cleanSubmit() {
+  cleanSubmit(): void {
     this.userSubmitted = false;
     this.submitted.emit(this.userSubmitted);
   }
 
-  onlyUnique(value: any, index: any, self: any) {
+  onlyUnique(value: any, index: any, self: any): boolean {
     return self.indexOf(value) === index;
   }
 }
