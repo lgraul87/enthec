@@ -1,45 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Repository, User } from '../interfaces';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
-
-  @Input()
-  repositoryLength = 0;
-
-  @Input()
-  repositories: any = [];
-
-  @Input()
-  userSubmitted: any = false;
-
-  @Input()
-  userAvatar = "";
-
-  @Input()
-  userName = "";
-
-  @Input()
-  bio = "";
-
-  @Input()
-  uniqueLanguage: any = [];
+export class TableComponent implements OnInit, OnChanges {
+  @Input() user?: User | null;
+  @Input() repositories: Repository[] = [];
+  @Input() languages: string[] = [];
+  @Input() error?: string;
+  @Input() isLoading?: boolean;
+  @Input() isSubmitted?: boolean;
 
   filterForm!: FormGroup
-  orderDesc: Boolean = false;
-  orderAsc: Boolean = false;
-  lenguajes: Array<string> = [];
-  repositoryTemplate: any = [];
-  limit: number = 0;
+  filteredRepositories: Repository[] = [];
+  languagesSelected: string[] = [];
 
-  constructor() { }
+  orderDesc = false;
+  orderAsc = false;
+  limit = 0;
 
-  ngOnInit(): void {
+  get userRepo() {
+    return this.filterForm.get('userRepo') as FormControl;
+  }
+
+  ngOnInit() {
     this.initFilterForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['repositories']?.currentValue) {
+      this.filteredRepositories = this.repositories;
+      this.filterForm?.reset('');
+    }
   }
 
   initFilterForm(): void {
@@ -50,44 +47,15 @@ export class TableComponent implements OnInit {
     });
   }
 
-  filterRepositories(form: FormGroup): void {
-    let array: any = [];
-    let filterActions: Boolean = false;
-    if (form.valid) {
-      this.repositories.forEach((element: any) => {
-        if (element.name.includes(form.value.userRepo)) {
-          array.push(element);
-          filterActions = true;
-        }
-      });
-
-      if (filterActions == true) {
-        this.repositories = array;
-        filterActions = false;
-      }
+  filterRepositories() {
+    const search = (this.userRepo.value as string)?.toLowerCase() ?? '';
+    this.filteredRepositories = this.repositories?.filter(repo => repo.name.toLowerCase().includes(search));
+    if (this.languagesSelected.length) {
+      this.filteredRepositories = this.filteredRepositories.filter(repo => this.languagesSelected.includes(repo.language));
     }
   }
 
-  orderNameRepository(): void {
-    this.setOrderAsc();
-    let sortedProducts = this.repositories.sort(this.compareName);
-    if (this.orderDesc == true) {
-      sortedProducts.reverse()
-      this.orderDesc = false;
-      this.orderAsc = true;
-    } else {
-      sortedProducts = this.repositories.sort(this.compareName);
-      this.orderAsc = false;
-    }
-  }
-
-  private setOrderAsc(): void {
-    if (this.orderDesc == false && this.orderAsc == false) {
-      this.orderDesc = true;
-    }
-  }
-
-  compareName(a: any, b: any): 0 | 1 | -1 {
+  compareName(a: Repository, b: Repository) {
     if (a.name.toUpperCase() < b.name.toUpperCase()) {
       return -1;
     }
@@ -97,22 +65,7 @@ export class TableComponent implements OnInit {
     return 0;
   }
 
-  orderStarsRepository(): void {
-    if (this.orderDesc == false && this.orderAsc == false) {
-      this.orderDesc = true;
-    }
-    let sortedProducts = this.repositories.sort(this.compareStars);
-    if (this.orderDesc == true) {
-      sortedProducts.reverse()
-      this.orderDesc = false;
-      this.orderAsc = true;
-    } else {
-      sortedProducts = this.repositories.sort(this.compareStars);
-      this.orderAsc = false;
-    }
-  }
-
-  compareStars(a: any, b: any): 0 | 1 | -1 {
+  compareStars(a: Repository, b: Repository) {
     if (a.stargazers_count < b.stargazers_count) {
       return -1;
     }
@@ -122,41 +75,42 @@ export class TableComponent implements OnInit {
     return 0;
   }
 
-  sendLanguage(event: any, stringLanguage: any): void {
-    const check = event.target.checked;
-    const stringLanguageObject = stringLanguage;
-    if (this.repositoryTemplate.length == 0) {
-      this.repositories.forEach((element: any) => {
-        this.repositoryTemplate.push(element);
-      });
-      this.limit = this.repositoryLength;
-      this.repositories = [];
+  orderNameRepository() {
+    if (!this.orderAsc && !this.orderDesc) {
+      this.orderDesc = true;
     }
-    if (this.repositories.length >= this.limit) {
-      this.repositories = [];
+    let sortedProducts = this.filteredRepositories.sort(this.compareName);
+    if (this.orderDesc) {
+      sortedProducts.reverse()
+      this.orderDesc = false;
+      this.orderAsc = true;
+    } else {
+      sortedProducts = this.filteredRepositories.sort(this.compareName);
+      this.orderAsc = false;
     }
-    if (check == true) {
-      this.repositoryTemplate.forEach((element: any) => {
-        if (element.language == stringLanguageObject.language) {
-          this.repositories.push(element);
-        }
-      }
-      )
-    }
-    if (check == false) {
-      let repositoriesFiltered: any = [];
-      for (let index = 0; index < this.repositories.length; index++) {
-        const element = this.repositories[index];
-        if (element.language != stringLanguageObject.language) {
-          repositoriesFiltered.push(element)
-        }
-      }
-      this.repositories = repositoriesFiltered;
-    }
+  }
 
-    if (this.repositories.length == 0) {
-      this.repositories = this.repositoryTemplate;
+  orderStarsRepository() {
+    if (!this.orderDesc && !this.orderAsc) {
+      this.orderDesc = true;
     }
-    this.repositories.sort(this.compareName)
+    let sortedProducts = this.filteredRepositories.sort(this.compareStars);
+    if (this.orderDesc) {
+      sortedProducts.reverse()
+      this.orderDesc = false;
+      this.orderAsc = true;
+    } else {
+      sortedProducts = this.filteredRepositories.sort(this.compareStars);
+      this.orderAsc = false;
+    }
+  }
+
+  updateLanguageFilter(event: Event, language: string) {
+    if ((event.target as any).checked) {
+      this.languagesSelected.push(language);
+    } else {
+      this.languagesSelected = this.languagesSelected.filter(lang => lang !== language);
+    }
+    this.filterRepositories();
   }
 }

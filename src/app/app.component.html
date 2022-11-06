@@ -1,23 +1,19 @@
 <div class="app-container">
   <app-header class="app-header"></app-header>
   <app-search class="app-search" 
-  (repositorySize)="repositorySize($event)" 
-  (repositoryData)="repositoryData($event)"
-  (repositoryAvatar)="repositoryAvatar($event)"
-  (repositoryUserName)="repositoryUserName($event)"
-  (repositoryBio)="repositoryBio($event)"
-  (repositoryUniqueLenguage)="repositoryUniqueLenguage($event)"
-  (submitted)="submitted($event)">
+    (userEvt)="setUser($event)"
+    (repositoriesEvt)="setRepositories($event)"
+    (languagesEvt)="setLanguages($event)"
+    (errorEvt)="setError($event)"
+    (isLoadingEvt)="setIsLoading($event)"
+    (isSubmittedEvt)="setIsSubmitted($event)">
   </app-search>
   <app-table class="app-table" 
-  *ngIf="repositoryLength > 0" 
-  [repositoryLength]="repositoryLength"
-  [repositories]="repositories" 
-  [userSubmitted]="userSubmitted"
-  [userAvatar]="userAvatar"
-  [userName]="userName"
-  [bio]="bio"
-  [uniqueLanguage]="uniqueLanguage"
-  >
+    [user]="user" 
+    [repositories]="repositories" 
+    [languages]="languages" 
+    [error]="error" 
+    [isLoading]="isLoading"
+    [isSubmitted]="isSubmitted">
   </app-table>
 </div>

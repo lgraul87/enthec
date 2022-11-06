@@ -1,35 +1,39 @@
 <div class="table-container">
-  <div class="header">
-    <div class="photo-container">
-      <img class="photo" src={{userAvatar}} alt="">
+  <div class="header" *ngIf="user && !isLoading">
+    <div class="photo-container" *ngIf="user.avatar_url">
+      <img class="photo" [src]="user.avatar_url" alt="photo">
     </div>
-    <div class="name">{{userName || "Not avaliable"}}</div>
-    <div class="bio">{{bio || "--"}}</div>
-    <div class="filter">
-      <form class="form-style" [formGroup]="filterForm" (ngSubmit)="filterRepositories(filterForm)">
-        <input class="filter-input" type="text" formControlName="userRepo">
-        <button class="filter-button" type="submit">Buscar repo</button>
-      </form>
-    </div>
-    <div class="checkbox">
-      <div *ngFor="let language of uniqueLanguage" class="check-text">
-        <div class="checkbox-style">
-          <input type="checkbox" (change)="sendLanguage($event,{language})">
-          <span>{{language}}</span>
+    <div class="name">{{ user.name ?? "Not avaliable" }}</div>
+    <div class="bio">{{ user.bio ?? "--" }}</div>
+    <ng-container *ngIf="repositories?.length">
+      <div class="filter">
+        <form class="form-style" [formGroup]="filterForm" (ngSubmit)="filterRepositories()">
+          <input class="filter-input" type="text" formControlName="userRepo">
+          <button class="filter-button" type="submit">
+            Buscar repo
+          </button>
+        </form>
+      </div>
+      <div class="checkbox">
+        <div *ngFor="let language of languages" class="check-text">
+          <div class="checkbox-style">
+            <input type="checkbox" (change)="updateLanguageFilter($event, language)">
+            <span>{{language}}</span>
+          </div>
+        </div>
+        <div *ngIf="!languages?.length" class="check-text">
+          --
         </div>
       </div>
-      <div *ngIf="uniqueLanguage.length == 0" class="check-text">
-        --
-      </div>
-    </div>
+    </ng-container>
   </div>
 
-  <div class="table-format">
+  <div class="table-format" *ngIf="filteredRepositories?.length && !isLoading">
     <table>
       <tr class="header-table-format">
         <th class="w-20">
           <span>NOMBRE DEL REPO</span>
-          <img (click)="orderNameRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt="">
+          <img (click)="orderNameRepository()" class="arrow-style aa" src="/assets/arrow-red-down.png">
         </th>
         <th class="w-17">
           <span class="aa">DESCRIPCIÓN</span>
@@ -38,19 +42,36 @@
           <span class="aa">ENLACE AL REPO</span>
         </th>
         <th class="w-13">ESTRELLAS
-          <img (click)="orderStarsRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt="">
+          <img (click)="orderStarsRepository()" class="arrow-style aa" src="/assets/arrow-red-down.png">
         </th>
         <th class="w-25">
           <span class="aa">LENGUAJES DE PROGRAMACIÓN</span>
         </th>
       </tr>
-      <tr *ngFor="let repository of repositories">
-        <td class="pt-30">{{repository.name}}</td>
-        <td class="pt-30">{{repository.description}}</td>
-        <td class="pt-30">{{repository.html_url}}</td>
-        <td class="pt-30">{{repository.stargazers_count}}</td>
-        <td class="pt-30">{{repository.language}}</td>
+      <tr *ngFor="let repository of filteredRepositories">
+        <td class="pt-30">{{ repository.name }}</td>
+        <td class="pt-30">{{ repository.description }}</td>
+        <td class="pt-30">{{ repository.html_url }}</td>
+        <td class="pt-30">{{ repository.stargazers_count }}</td>
+        <td class="pt-30">{{ repository.language }}</td>
       </tr>
     </table>
   </div>
+
+  <div class="spinner-box" *ngIf="isLoading">
+    <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve"><path fill="#000" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"><animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite"/></path></svg>
+  </div>
+  
+  <div class="error-control" *ngIf="isSubmitted && !isLoading && !user">
+    * No existe usuario con ese nombre en GitHub
+  </div>
+  
+  <div class="error-control" *ngIf="isSubmitted && !isLoading && user && !repositories?.length">
+    * No existe repositorioes para este usuario en GitHub
+  </div>
+
+  <div class="error-control" *ngIf="isSubmitted && !isLoading && user && repositories?.length && !filteredRepositories?.length">
+    * No existe repositorioes con la búsqueda introducida para este usuario en GitHub
+  </div>
 </div>
+

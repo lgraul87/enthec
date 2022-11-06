@@ -70,13 +70,13 @@ th {
     height: 25px;
     width: 94px;
     font-weight: 400;
-    background-color: black;
-    color: white;
+    background-color: var(--black);
+    color: var(--white);
     cursor: pointer;
 }
 
 .filter-button:hover {
-    background-color: rgb(34, 33, 33);
+    background-color: var(--gray);
 }
 
 .checkbox {
@@ -134,4 +134,10 @@ th {
 .aa {
     position: relative;
     top: 5px;
+}
+
+.spinner-box {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
 }

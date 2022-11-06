@@ -1,76 +1,41 @@
 import { Component } from '@angular/core';
 
+import { Repository, User } from './interfaces';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  repositoryLength: number = 0;
-  repositories: any = [];
-  userSubmitted: any = false;
-  userAvatar = "";
-  userName = "";
-  bio = "";
-  uniqueLanguage: any = [];
-
-  constructor() { }
-
-  ngOnInit() {
+  user?: User | null; 
+  repositories: Repository[] = [];
+  languages: string[] = [];
+  error?: string;
+  isLoading?: boolean;
+  isSubmitted?: boolean;
+  
+  setUser(user: User | null) {
+    this.user = user;
   }
 
-  repositorySize(event: any) {
-    this.repositoryLength = event;
-  }
-  repositoryData(event: any) {
-    this.repositories = event;
+  setRepositories(repositories: Repository[]) {
+    this.repositories = repositories;
   }
 
-  submitted(event: any) {
-    this.userSubmitted = event;
+  setLanguages(languages: string[]) {
+    this.languages = languages;
   }
 
-  repositoryAvatar(event: any) {
-    this.userAvatar = event
+  setError(error: string) {
+    this.error = error;
   }
 
-  repositoryUserName(event: any) {
-    this.userName = event
+  setIsLoading(isLoading: boolean) {
+    this.isLoading = isLoading;
   }
 
-  repositoryBio(event: any) {
-    this.bio = event
+  setIsSubmitted(isSubmitted: boolean) {
+    this.isSubmitted = isSubmitted;
   }
-
-  repositoryUniqueLenguage(event: any) {
-    this.uniqueLanguage = event
-  }
-
-  // 1 - Realizar un input que busque por nombre de usuario y que renderice 
-  // la biografía, el nombre y elavatar y una lista de los repositorios 
-  // de ese usuario en una tabla.
-
-  // 2 - Para cada repositorio que pinte los siguientes datos: nombre, descripción, un enlace al
-  // repositorio, las estrellas y los lenguajes de programación.
-
-
-
-
-
-
-
-
-
-
-  // 3 - Que las filas de la tabla se puedan ordenar por nombre del repositorio o por estrellas de forma
-  // ascendente y descendente.
-
-  // 4 - Que puedas buscar y que solo muestre los repositorios en el que nombre coincida con la
-  // búsqueda.
-
-  // 5 - Que se pueda filtrar por lenguaje(s) de programación y que solo aparezcan los repos con los
-  // lenguajes seleccionados. En el wireframe se muestran HTML, CSS, Javascript, pero es un ejemplo
-  // ya que esto debera variar en función de los lenguajes que utilizen los repos de la lista.
-
-  // 6 - Opcional: Que cuando el usuario haga scroll se muestren mas repos (scroll infinito).
 }

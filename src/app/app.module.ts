@@ -19,12 +19,11 @@ import { TableComponent } from './table/table.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    AppRoutingModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

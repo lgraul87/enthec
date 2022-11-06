@@ -1,6 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../user.service';
+
+import { catchError, of } from 'rxjs';
+import { switchMap, tap, finalize } from 'rxjs/operators';
+
+import { UserService } from '../services';
+import { Repository, User } from '../interfaces';
 
 @Component({
   selector: 'app-search',
@@ -9,100 +14,59 @@ import { UserService } from '../user.service';
 })
 export class SearchComponent implements OnInit {
 
-  @Output() repositorySize: EventEmitter<any> = new EventEmitter();
-  @Output() repositoryData: EventEmitter<any> = new EventEmitter();
-  @Output() repositoryAvatar: EventEmitter<any> = new EventEmitter();
-  @Output() repositoryUserName: EventEmitter<any> = new EventEmitter();
-  @Output() repositoryBio: EventEmitter<any> = new EventEmitter();
-  @Output() repositoryUniqueLenguage: EventEmitter<any> = new EventEmitter();
-  @Output() submitted: EventEmitter<any> = new EventEmitter();
+  @Output() userEvt = new EventEmitter<User | null>();
+  @Output() repositoriesEvt = new EventEmitter<Repository[]>();
+  @Output() languagesEvt = new EventEmitter<string[]>();
+  @Output() errorEvt = new EventEmitter<string>();
+  @Output() isLoadingEvt = new EventEmitter<boolean>();
+  @Output() isSubmittedEvt = new EventEmitter<boolean>();
 
+  errorMessage?: string;
   userForm!: FormGroup;
-  userSubmitted: Boolean = false;
-  userAvatar: string = "";
-  userFullName: string = "";
-  bio: string = "";
-  repositoryLength: number = 0;
-  repositories: any = [];
 
   get userName() {
-    return this.userForm.get('userName');
+    return this.userForm.get('userName') as FormControl;
   }
 
-  constructor(private readonly service: UserService) { }
+  constructor(private readonly userService: UserService) { }
 
   ngOnInit(): void {
-    this.initUserForm();
+    this.initForm();
   }
 
-  private initUserForm() {
+  private initForm() {
     this.userForm = new FormGroup({
-      userName: new FormControl('', [
-        Validators.required,
-      ])
+      userName: new FormControl('', [Validators.required])
     });
   }
 
-  searchUser(form: FormGroup): void {
-    this.userSubmitted = true;
-    if (form.valid) {
-      this.service.searchUsers(form.value.userName).subscribe({
-        next: user => {
-          console.log(
-            "*** User found (Success): The user", user.name
-            , "with the id:", user.id
-            , "and login like:", user.login
-            , "was founded. ***"
-          );
-          this.userAvatar = user.avatar_url;
-          this.repositoryAvatar.emit(this.userAvatar);
-          this.userFullName = user.name;
-          this.repositoryUserName.emit(this.userFullName);
-          this.bio = user.bio;
-          this.repositoryBio.emit(this.bio);
-          this.service.searchRepos(form.value.userName).subscribe({
-            next: repositories => {
-              this.repositories = repositories;
-              this.repositoryData.emit(this.repositories);
-              this.repositoryLength = repositories.length;
-              this.repositorySize.emit(this.repositoryLength);
-              let allLenguajes: any = [];
-              this.repositories.forEach((element: any) => {
-                if (element.language) {
-                  allLenguajes.push(element.language);
-                }
-              });
-              const uniqueLenguage = allLenguajes.filter(this.onlyUnique);
-              this.repositoryUniqueLenguage.emit(uniqueLenguage);
-              console.log(
-                "The user", form.value.userName,
-                "has", this.repositoryLength,
-                "repositories");
-            },
-            error: error => {
-              console.log("Error control (line 53 aprox): ", error);
-            },
-            complete: () => {
-              console.log('The searchRepos method was completed');
-            }
-          });
-        },
-        error: error => {
-          console.log("Error control (line 53 aprox): ", error);
-        },
-        complete: () => {
-          console.log('The searchUsers method was completed');
-        }
-      })
-    }
+  searchUser(): void {
+    const userName = this.userName.value;
+    this.resetSearchResult();
+
+    this.userService.searchUser(userName).pipe(
+      tap((user) => this.userEvt.emit(user)),
+      switchMap((user) => this.userService.searchRepos(userName)),
+      tap((repositories) => {
+        const languages = Array.from(new Set(repositories.map(repo => repo.language).filter(v => !!v)));
+        this.repositoriesEvt.emit(repositories);
+        this.languagesEvt.emit(languages);
+      }),
+      catchError(error => {
+        const errorMessage = (error.status === 404) ? 'Usuario no encontrado, inténtelo de nuevo' : 'Error, inténtelo de nuevo';
+        this.errorEvt.emit(errorMessage);
+        return of(error);
+      }),
+      finalize(() =>this.isLoadingEvt.emit(false))
+    ).subscribe();
+    
+    this.isSubmittedEvt.emit(true);
   }
 
-  cleanSubmit(): void {
-    this.userSubmitted = false;
-    this.submitted.emit(this.userSubmitted);
-  }
-
-  onlyUnique(value: any, index: any, self: any): boolean {
-    return self.indexOf(value) === index;
+  private resetSearchResult() {
+    this.isLoadingEvt.emit(true);
+    this.userEvt.emit(null);
+    this.repositoriesEvt.emit([]);
+    this.languagesEvt.emit([]);
   }
 }

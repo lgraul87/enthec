@@ -12,18 +12,21 @@
     height: 35px;
     width: 114px;
     font-weight: 700;
-    background-color: black;
-    color: white;
+    background-color: var(--black);
+    color: var(--white);
     cursor: pointer;
+    &:disabled {
+        opacity: 0.35;
+    }
 }
 
 .search-button:hover {
-    background-color: rgb(34, 33, 33);
+    background-color: var(--gray)
 }
 
 .error-control {
     grid-area: 2/2/3/3;
     margin-top: 8px;
-    color: rgb(216, 4, 4);
+    color: var(--red);
     font-weight: bold;
 }
