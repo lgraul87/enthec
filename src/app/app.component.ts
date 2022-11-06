@@ -12,7 +12,7 @@ export class AppComponent {
   userAvatar = "";
   userName = "";
   bio = "";
-  uniqueLenguage: any = [];
+  uniqueLanguage: any = [];
 
   constructor() { }
 
@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   repositoryUniqueLenguage(event: any) {
-    this.uniqueLenguage = event
+    this.uniqueLanguage = event
   }
 
   // 1 - Realizar un input que busque por nombre de usuario y que renderice 

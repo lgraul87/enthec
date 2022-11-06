@@ -27,12 +27,14 @@ export class TableComponent implements OnInit {
   bio = "";
 
   @Input()
-  uniqueLenguage: any = [];
+  uniqueLanguage: any = [];
 
   filterForm!: FormGroup
   orderDesc = false;
   orderAsc = false;
   lenguajes: any = [];
+  repositoryTemplate: any = [];
+  limit = 0;
 
   constructor() { }
 
@@ -114,5 +116,50 @@ export class TableComponent implements OnInit {
       return 1;
     }
     return 0;
+  }
+
+  sendLanguage(event: any, stringLanguage: any) {
+    const check = event.target.checked;
+    const stringLanguageObject = stringLanguage;
+    if (this.repositoryTemplate.length == 0) {
+      this.repositories.forEach((element: any) => {
+        this.repositoryTemplate.push(element);
+      });
+      this.limit = this.repositoryLength;
+      this.repositories = [];
+    }
+
+    if (this.repositories.length >= this.limit) {
+      this.repositories = [];
+    }
+
+    if (check == true) {
+      this.repositoryTemplate.forEach((element: any) => {
+        if (element.language == stringLanguageObject.language) {
+          this.repositories.push(element);
+        }
+      }
+      )
+    }
+
+
+
+    if (check == false) {
+      let arr: any = [];
+      for (let index = 0; index < this.repositories.length; index++) {
+        const element = this.repositories[index];
+        if (element.language != stringLanguageObject.language) {
+          arr.push(element)
+        }
+      }
+      this.repositories = arr;
+    }
+
+
+    if (this.repositories.length == 0) {
+      this.repositories = this.repositoryTemplate;
+    }
+    this.repositories.sort(this.compareName)
+
   }
 }

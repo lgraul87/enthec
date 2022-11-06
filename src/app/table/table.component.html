@@ -12,13 +12,13 @@
       </form>
     </div>
     <div class="checkbox">
-      <div *ngFor="let lenguage of uniqueLenguage" class="check-text">
+      <div *ngFor="let language of uniqueLanguage" class="check-text">
         <div class="checkbox-style">
-          <input type="checkbox">
-          <span>{{lenguage}}</span>
+          <input type="checkbox" (change)="sendLanguage($event,{language})">
+          <span>{{language}}</span>
         </div>
       </div>
-      <div *ngIf="uniqueLenguage.length == 0" class="check-text">
+      <div *ngIf="uniqueLanguage.length == 0" class="check-text">
         --
       </div>
     </div>
@@ -27,11 +27,22 @@
   <div class="table-format">
     <table>
       <tr class="header-table-format">
-        <th class="w-20">  <span>NOMBRE DEL REPO</span> <img (click)="orderNameRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt=""> </th>
-        <th class="w-17">  <span class="aa">DESCRIPCIÓN</span> </th>
-        <th class="w-25">  <span class="aa">ENLACE AL REPO</span>  </th>
-        <th class="w-13">  ESTRELLAS  <img (click)="orderStarsRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt=""></th>
-        <th class="w-25"> <span class="aa">LENGUAJES DE PROGRAMACIÓN</span> </th>
+        <th class="w-20">
+          <span>NOMBRE DEL REPO</span>
+          <img (click)="orderNameRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt="">
+        </th>
+        <th class="w-17">
+          <span class="aa">DESCRIPCIÓN</span>
+        </th>
+        <th class="w-25">
+          <span class="aa">ENLACE AL REPO</span>
+        </th>
+        <th class="w-13">ESTRELLAS
+          <img (click)="orderStarsRepository()" class="arrow-style aa" src="./../../assets/arrow-red-down.png" alt="">
+        </th>
+        <th class="w-25">
+          <span class="aa">LENGUAJES DE PROGRAMACIÓN</span>
+        </th>
       </tr>
       <tr *ngFor="let repository of repositories">
         <td class="pt-30">{{repository.name}}</td>
